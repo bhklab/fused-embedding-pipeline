@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier
+_commit: 0.14.2
+_src_path: gh:bhklab/bhklab-project-template
+additional_authors_raw: Michael Tran
+author_email: bhklab.jamesbannon@gmail.com
+author_full_name: James Bannon
+github_username: jbannon
+has_additional_authors: true
+project_description: Setting up for DNA nexus
+project_name: Fused Embedding Pipeline
+project_slug: fused-embedding-pipeline
+publish_to_github: true
+python_version: '3.13'
+repo_location: bhklab
