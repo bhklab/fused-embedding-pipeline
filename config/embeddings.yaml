@@ -1,0 +1,7 @@
+PARAMETERS:
+    hidden_dimension: 100
+    mu:  0.4
+    num_nbrs: 20
+    num_epochs: 1000
+    seed: 1234
+    metric: 'sqeuclidean'

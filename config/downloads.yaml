@@ -1,0 +1,31 @@
+HDD:
+    dir: "HDD"
+    colData: "https://zenodo.org/records/22133259/files/colData.tsv?download=1"
+
+JUMP:
+    dir: "JUMP"
+    colData: "https://zenodo.org/records/20028579/files/colData.tsv?download=1"
+    cellprof_parquet: "https://zenodo.org/records/20028579/files/cellprofiler.parquet?download=1"
+    cellprof_tsv: "https://zenodo.org/records/20028579/files/cellprofiler.tsv?download=1"
+    cpcnn_parquet: "https://zenodo.org/records/20028579/files/cpcnn.parquet?download=1"
+    cpcnn_tsv: "https://zenodo.org/records/20028579/files/cpcnn.tsv?download=1"
+ 
+
+GEOM:
+    dir: "GEOM"
+    colData: "https://zenodo.org/records/20019577/files/colData.tsv?download=1"
+    hp_parquet: "https://zenodo.org/records/20019577/files/WHIM_hp.parquet?download=1"
+    
+
+
+LINCS:
+    dir: "LINCS"
+    cell_meta: "https://zenodo.org/records/20019530/files/cell_line_metadata.tsv?download=1"
+    colData: "https://zenodo.org/records/20019530/files/colData.tsv?download=1"
+    signatures: "https://zenodo.org/records/20019530/files/signatures.parquet?download=1"
+    
+
+VIABILITY:
+    dir: "../../data/procdata/"
+    rawdir: "../../data/rawdata/"
+    screen: "NCI60_2026"

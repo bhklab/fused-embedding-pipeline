@@ -1,10 +1,9 @@
 [workspace]
-name = "fused-embedding-pipeline"
+name = "Fused Drug Embedding Pipeline"
 authors = [
-    "James Bannon <bhklab.jamesbannon@gmail.com>",
-    "Michael Tran"
+    "James Bannon <bhklab.jamesbannon@gmail.com>"
 ]
-description = "Setting up for DNA nexus"
+description = "DNFv2 is the sequel to DNF using the tools from InteGrAO"
 license = "MIT"
 channels = ["conda-forge", "bioconda"]
 platforms = ["osx-arm64", "linux-64", "win-64", "osx-64"]
@@ -24,14 +23,28 @@ env.RESULTS = "${PIXI_PROJECT_ROOT}/data/results"
 env.SCRIPTS = "${PIXI_PROJECT_ROOT}/workflow/scripts"
 
 [dependencies]
-python = ">=3.13"
+python = ">=3.13,<3.14"
 ipython = "*"
 ipykernel = "*"
 jupyterlab = "*"
 pip = "*"
+rdkit = ">=2026.3.3,<2027"
+tqdm = ">=4.70.1,<5"
+transformers = ">=5.10.2,<6"
+pytorch = ">=2.13.0,<3"
+torch-geometric = ">=2.6.1,<3"
+pyarrow = ">=24.0.0,<25"
+scikit-learn = ">=1.5.0, <1.6"
+pyyaml = ">=6.0.3,<7"
+xgboost = ">=3.4.1,<4"
 
 [pypi-dependencies]
 damply = ">=0.10.0, <0.11"
+pot = ">=0.9.6.post1, <0.10"
+snfpy = ">=0.2.2, <0.3"
+seaborn = ">=0.13.2, <0.14"
+umap-learn = ">=0.5.7, <0.6"
+
 
 [tasks]
 example_script = {cmd="python $SCRIPTS/example_script.py", description="Run an example script"}
