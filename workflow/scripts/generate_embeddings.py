@@ -3,6 +3,7 @@ Generating Fused Network Embeddings
 """
 import sys
 import pandas as pd
+import pyarrow.parquet as pq
 
 from scipy import stats
 from itertools import combinations
@@ -74,19 +75,45 @@ JUMP_map = JUMP_map.dropna(subset=['JUMP.CP.ID'])
 #
 ####
 print("\nLoading in the JUMP data...\n")
-JUMP_data = pd.read_parquet(dirs.RAWDATA / "JUMP" / "cpcnn.parquet")
-JUMP_meta = pd.read_csv(dirs.RAWDATA /"JUMP" /"colData.tsv",sep="\t",usecols=["Sample.ID","JUMP.CP.ID"])
+JUMP_meta = pd.read_csv(
+    dirs.RAWDATA / "JUMP" / "colData.tsv",
+    sep="\t",
+    usecols=["Sample.ID", "JUMP.CP.ID"],
+)
+# Apply the existing MoA eligibility filter before computing independent means.
+moa_counts = colData["Mechanism.of.Action"].value_counts()
+eligible_ids = colData.loc[
+    colData["Mechanism.of.Action"].isin(moa_counts[moa_counts > 1].index),
+    "HDD.Compound.ID",
+]
+JUMP_map = JUMP_map[JUMP_map["HDD.Compound.ID"].isin(eligible_ids)]
+JUMP_mapping = JUMP_map.merge(JUMP_meta, on="JUMP.CP.ID")
 
-
-
-JUMP_data = JUMP_meta.merge(JUMP_data,on="Sample.ID")
-
-JUMP_data = JUMP_map.merge(JUMP_data,on="JUMP.CP.ID")
-JUMP_data = JUMP_data.drop(labels=["Sample.ID","JUMP.CP.ID"],axis=1)
-
-JUMP_data = pd.DataFrame(JUMP_data.groupby("HDD.Compound.ID").mean())
+# Read batches so the full JUMP assay does not need to fit in memory.
+JUMP_sums = None
+JUMP_counts = None
+for batch in pq.ParquetFile(dirs.RAWDATA / "JUMP" / "cpcnn.parquet").iter_batches(
+    batch_size=4096
+):
+    frame = JUMP_mapping.merge(batch.to_pandas(), on="Sample.ID")
+    if frame.empty:
+        continue
+    frame = frame.drop(columns=["Sample.ID", "JUMP.CP.ID"])
+    grouped = frame.set_index("HDD.Compound.ID").astype("float64").groupby(level=0)
+    batch_sums = grouped.sum()
+    batch_counts = grouped.count()
+    JUMP_sums = (
+        batch_sums if JUMP_sums is None else JUMP_sums.add(batch_sums, fill_value=0)
+    )
+    JUMP_counts = (
+        batch_counts
+        if JUMP_counts is None
+        else JUMP_counts.add(batch_counts, fill_value=0)
+    )
+if JUMP_sums is None:
+    raise ValueError("No JUMP samples mapped to HDD compounds")
+JUMP_data = JUMP_sums.div(JUMP_counts.where(JUMP_counts > 0)).sort_index()
 JUMP_mols = set(JUMP_data.index)
-
 
 
 ####

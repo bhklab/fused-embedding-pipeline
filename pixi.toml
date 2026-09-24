@@ -92,6 +92,7 @@ umap-learn = ">=0.5.7, <0.6"
 [tasks]
 setup = { cmd = "Rscript workflow/scripts/setup.R", description = "Install PharmacoGx devel from GitHub" }
 download = { cmd = "python workflow/scripts/download.py && Rscript workflow/scripts/fetch_viability.R", description = "Download inputs and prepare NCI60 responses" }
+generate-embeddings = { cmd = "mkdir -p data/results && python workflow/scripts/generate_embeddings.py", description = "Generate embeddings from prepared input files" }
 
 ############################################## QUALITY ###############################################
 # Quality includes linting, type checking, and formatting
