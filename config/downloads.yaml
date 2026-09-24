@@ -26,6 +26,7 @@ LINCS:
     
 
 VIABILITY:
-    dir: "../../data/procdata/"
-    rawdir: "../../data/rawdata/"
+    # Paths are relative to the project root, not the shell working directory.
+    dir: "data/procdata"
+    rawdir: "data/rawdata"
     screen: "NCI60_2026"
