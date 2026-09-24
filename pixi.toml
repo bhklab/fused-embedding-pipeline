@@ -6,7 +6,7 @@ authors = [
 description = "DNFv2 is the sequel to DNF using the tools from InteGrAO"
 license = "MIT"
 channels = ["conda-forge", "bioconda"]
-platforms = ["osx-arm64", "linux-64", "win-64", "osx-64"]
+platforms = ["osx-arm64", "linux-64", "osx-64"]
 
 [environments]
 quality = { features = ["quality"], solve-group = "default" }
@@ -21,9 +21,23 @@ env.RAWDATA = "${PIXI_PROJECT_ROOT}/data/rawdata"
 env.PROCDATA = "${PIXI_PROJECT_ROOT}/data/procdata"
 env.RESULTS = "${PIXI_PROJECT_ROOT}/data/results"
 env.SCRIPTS = "${PIXI_PROJECT_ROOT}/workflow/scripts"
+env.R_LIBS_USER = "${PIXI_PROJECT_ROOT}/.pixi/r-library"
+env.PYTHONUNBUFFERED = "1"
 
 [dependencies]
 python = ">=3.13,<3.14"
+numpy = ">=2,<3"
+pandas = ">=2.2,<3"
+scipy = ">=1.14,<2"
+networkx = ">=3,<4"
+requests = ">=2,<3"
+r-base = ">=4.5,<4.6"
+r-remotes = ">=2.5,<3"
+r-biocmanager = ">=1.30,<2"
+r-tidyr = ">=1.3,<2"
+r-dplyr = ">=1.1,<2"
+r-tibble = ">=3,<4"
+r-yaml = ">=2.3,<3"
 ipython = "*"
 ipykernel = "*"
 jupyterlab = "*"
@@ -37,6 +51,35 @@ pyarrow = ">=24.0.0,<25"
 scikit-learn = ">=1.5.0, <1.6"
 pyyaml = ">=6.0.3,<7"
 xgboost = ">=3.4.1,<4"
+bioconductor-biobase = ">=2.70.0,<3"
+bioconductor-biocgenerics = ">=0.56.0,<0.57"
+bioconductor-s4vectors = ">=0.48.1,<0.49"
+bioconductor-summarizedexperiment = ">=1.40.0,<2"
+bioconductor-multiassayexperiment = ">=1.36.2,<2"
+bioconductor-biocparallel = ">=1.44.0,<2"
+bioconductor-matrixgenerics = ">=1.22.0,<2"
+bioconductor-bumpymatrix = ">=1.18.0,<2"
+r-ggplot2 = ">=4.0.3,<5"
+r-rcolorbrewer = ">=1.1_3,<2"
+r-catools = ">=1.18.3,<2"
+r-downloader = ">=0.4.1,<0.5"
+r-reshape2 = ">=1.4.5,<2"
+r-jsonlite = ">=2.0.0,<3"
+"r-data.table" = ">=1.18.6.1,<2"
+r-checkmate = ">=2.3.3,<3"
+r-boot = ">=1.3_32,<2"
+r-rcpp = ">=1.1.2,<2"
+r-lsa = ">=0.73.4,<0.74"
+r-crayon = ">=1.5.3,<2"
+r-glue = ">=1.8.1,<2"
+r-rlang = ">=1.3.0,<2"
+c-compiler = ">=2.0.0,<3"
+cxx-compiler = ">=2.0.0,<3"
+fortran-compiler = ">=2.0.0,<3"
+make = ">=4.4.1,<5"
+pkg-config = ">=0.29.2,<0.30"
+r-maps = ">=3.4.3,<4"
+r-httpuv = ">=1.6.16,<2"
 
 [pypi-dependencies]
 damply = ">=0.10.0, <0.11"
@@ -47,7 +90,7 @@ umap-learn = ">=0.5.7, <0.6"
 
 
 [tasks]
-example_script = {cmd="python $SCRIPTS/example_script.py", description="Run an example script"}
+setup = { cmd = "Rscript workflow/scripts/setup.R", description = "Install PharmacoGx devel from GitHub" }
 
 ############################################## QUALITY ###############################################
 # Quality includes linting, type checking, and formatting
@@ -56,11 +99,11 @@ ruff = "*"
 
 [feature.quality.tasks]
 ruff-check.cmd = ["ruff", "check"]
-ruff-check.inputs = ["config/ruff.toml", "workflow"]
+ruff-check.inputs = ["ruff.toml", "workflow"]
 ruff-check.description = "Run ruff check"
 
 ruff-format.cmd = ["ruff", "format"]
-ruff-format.inputs = ["config/ruff.toml", "workflow"]
+ruff-format.inputs = ["ruff.toml", "workflow"]
 ruff-format.depends-on = ["ruff-check"]
 ruff-format.description = "Run ruff format, run check first"
 
