@@ -378,6 +378,9 @@ site/
 #############################################################################
 
 # Add your project-specific entries here
+/.nextflow/
+/.nextflow.log*
+/data/work/
 # For example:
 # models/
 # sandbox/

@@ -80,6 +80,8 @@ make = ">=4.4.1,<5"
 pkg-config = ">=0.29.2,<0.30"
 r-maps = ">=3.4.3,<4"
 r-httpuv = ">=1.6.16,<2"
+nextflow = ">=25.10,<26"
+openjdk = ">=21,<22"
 
 [pypi-dependencies]
 damply = ">=0.10.0, <0.11"
@@ -90,6 +92,7 @@ umap-learn = ">=0.5.7, <0.6"
 
 
 [tasks]
+pipeline = { cmd = "nextflow run main.nf", depends-on = ["setup"], description = "Run the Nextflow pipeline; pass -resume to reuse completed tasks" }
 setup = { cmd = "Rscript workflow/scripts/setup.R", description = "Install PharmacoGx devel from GitHub" }
 download = { cmd = "python workflow/scripts/download.py && Rscript workflow/scripts/fetch_viability.R", description = "Download inputs and prepare NCI60 responses" }
 generate-embeddings = { cmd = "mkdir -p data/results && python workflow/scripts/generate_embeddings.py", description = "Generate embeddings from prepared input files" }
