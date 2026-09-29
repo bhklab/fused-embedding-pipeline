@@ -1,7 +1,8 @@
 [workspace]
 name = "Fused Drug Embedding Pipeline"
 authors = [
-    "James Bannon <bhklab.jamesbannon@gmail.com>"
+    "James Bannon <bhklab.jamesbannon@gmail.com>",
+    "Michael Tran <bhklab.michaeltran@gmail.com>",
 ]
 description = "DNFv2 is the sequel to DNF using the tools from InteGrAO"
 license = "MIT"
