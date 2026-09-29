@@ -1,0 +1,7 @@
+**
+!Dockerfile
+!pixi.toml
+!pixi.lock
+!workflow/
+!workflow/scripts/
+!workflow/scripts/setup.R
