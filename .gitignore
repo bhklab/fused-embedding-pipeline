@@ -381,6 +381,7 @@ site/
 /.nextflow/
 /.nextflow.log*
 /data/work/
+/data/dnanexus/
 # For example:
 # models/
 # sandbox/

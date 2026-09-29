@@ -94,11 +94,21 @@ Run: pixi run pipeline [options] [-resume]
   --downloads FILE        Download configuration (default: config/downloads.yaml)
   --embeddings FILE       Model configuration (default: config/embeddings.yaml)
   --outdir DIR            Published embeddings (default: data/results/nextflow)
+  --container_image IMAGE Docker image tag, digest, or DNAnexus image file URI
 
-Setup installs PharmacoGx devel before Nextflow starts. Tasks use the active
-Pixi environment. Keep data/work/ and .nextflow/ to resume completed tasks.
+Local: pixi run pipeline (active Pixi environment; setup runs first).
+Container: pixi run nextflow run main.nf -profile docker
+DNAnexus: build with --profile dnanexus and supply --container_image.
+Keep data/work/ and .nextflow/ to resume local tasks.
 '''
     } else {
+        if (workflow.profile.tokenize(',').contains('dnanexus') && !params.container_image) {
+            error 'Supply --container_image with the uploaded Docker image URI or a registry image digest.'
+        }
+        if (workflow.profile.tokenize(',').contains('dnanexus') &&
+            (params.outdir.startsWith('/') || params.outdir.contains('://'))) {
+            error 'On DNAnexus, --outdir must be relative (for example results); use job --destination for the platform folder.'
+        }
         downloads = file(params.downloads, checkIfExists: true)
         embeddings = file(params.embeddings, checkIfExists: true)
         scripts = file("${projectDir}/workflow/scripts", checkIfExists: true)

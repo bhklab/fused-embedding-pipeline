@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Fused embedding pipeline",
+  "description": "Integrate GEOM, LINCS, JUMP and NCI60 features into compound embeddings.",
+  "type": "object",
+  "definitions": {
+    "inputs": {
+      "title": "Inputs",
+      "type": "object",
+      "properties": {
+        "downloads": {
+          "type": "string",
+          "format": "file-path",
+          "description": "Optional downloads YAML; uses the bundled configuration when omitted."
+        },
+        "embeddings": {
+          "type": "string",
+          "format": "file-path",
+          "description": "Optional model YAML; uses the bundled configuration when omitted."
+        },
+        "raw_data": {
+          "type": "string",
+          "format": "directory-path",
+          "description": "Optional directory containing HDD, JUMP, GEOM and LINCS subdirectories. On DNAnexus use a dx://project-ID:/folder URI. Otherwise download the inputs."
+        },
+        "viability": {
+          "type": "string",
+          "format": "file-path",
+          "description": "Optional prepared NCI60 response CSV. Otherwise download and prepare the PharmacoSet."
+        }
+      }
+    },
+    "execution": {
+      "title": "Execution",
+      "type": "object",
+      "properties": {
+        "container_image": {
+          "type": "string",
+          "description": "Docker image registry digest or dx://project-ID:file-ID of an uploaded Docker image archive. Required for the DNAnexus profile."
+        },
+        "outdir": {
+          "type": "string",
+          "description": "Output subdirectory. Must be relative on DNAnexus; the cloud profile defaults to results."
+        }
+      }
+    }
+  },
+  "allOf": [
+    { "$ref": "#/definitions/inputs" },
+    { "$ref": "#/definitions/execution" }
+  ]
+}
