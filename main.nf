@@ -63,6 +63,27 @@ process GENERATE_EMBEDDINGS {
     """
 }
 
+process EMBEDDING_QC {
+    cpus 1
+    memory '2 GB'
+    publishDir params.outdir, mode: 'copy', overwrite: true
+
+    input:
+    path embeddings
+    path labels
+    path qc_script
+
+    output:
+    path 'qc/*', emit: reports
+
+    script:
+    """
+    export OMP_NUM_THREADS=${task.cpus}
+    export OPENBLAS_NUM_THREADS=${task.cpus}
+    python '${qc_script}' --embeddings '${embeddings}' --labels '${labels}' --outdir qc
+    """
+}
+
 workflow {
     if (params.help) {
         log.info '''
@@ -95,5 +116,10 @@ Pixi environment. Keep data/work/ and .nextflow/ to resume completed tasks.
         }
 
         GENERATE_EMBEDDINGS(raw_data, viability, embeddings, scripts)
+        EMBEDDING_QC(
+            GENERATE_EMBEDDINGS.out.embeddings,
+            raw_data.map { it.resolve('HDD/colData.tsv') },
+            file("${projectDir}/workflow/qc/embedding_qc.py", checkIfExists: true)
+        )
     }
 }

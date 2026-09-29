@@ -92,6 +92,7 @@ umap-learn = ">=0.5.7, <0.6"
 
 
 [tasks]
+qc = { cmd = "python workflow/qc/embedding_qc.py", description = "Evaluate ATC/MOA prediction from embeddings with five-fold cross-validation" }
 pipeline = { cmd = "nextflow run main.nf", depends-on = ["setup"], description = "Run the Nextflow pipeline; pass -resume to reuse completed tasks" }
 setup = { cmd = "Rscript workflow/scripts/setup.R", description = "Install PharmacoGx devel from GitHub" }
 download = { cmd = "python workflow/scripts/download.py && Rscript workflow/scripts/fetch_viability.R", description = "Download inputs and prepare NCI60 responses" }
@@ -112,8 +113,8 @@ ruff-format.inputs = ["ruff.toml", "workflow"]
 ruff-format.depends-on = ["ruff-check"]
 ruff-format.description = "Run ruff format, run check first"
 
-qc.depends-on = ["ruff-format", "ruff-check"]
-qc.description = "Quality check: ruff check and format"
+lint.depends-on = ["ruff-format", "ruff-check"]
+lint.description = "Quality check: ruff check and format"
 
 ############################################## DOCS ################################################
 
