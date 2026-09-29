@@ -21,8 +21,9 @@ dev_addr: 127.0.0.1:8003
 nav:
   - Home: README.md
   - Usage: usage.md
+  - DNAnexus Deployment: dnanexus.md
   - Data Sources: data_sources.md
-  - Developer Notes: devnotes.md
+  - Maintenance: devnotes.md
 
 theme: readthedocs
 

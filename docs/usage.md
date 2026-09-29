@@ -1,13 +1,8 @@
-# Usage Guide
+# Usage
 
-## Project Configuration
+The [repository README](https://github.com/bhklab/fused-embedding-pipeline#readme)
+provides the user guide for running the pipeline through the DNAnexus web portal
+or CLI, configuring inputs, reviewing outputs, and resuming analyses.
 
-TODO:: discuss how to edit the configuration files in the `config/` directory to match your research parameters
-
-TODO:: discuss how to add your input data to the `data/rawdata/` directory and document it properly in the `docs/data_sources/` directory
-
-TODO:: discuss how to manage and organize your data sources effectively
-
-## Running Your Analysis
-
-TODO:: discuss using pixi tasks to run the analysis
+For building and sharing an applet in your own project, see the
+[deployment guide](dnanexus.md).
